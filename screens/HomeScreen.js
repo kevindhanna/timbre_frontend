@@ -11,7 +11,7 @@ import {
   Button
 } from 'react-native';
 import t from 'tcomb-form-native'
-
+import * as Font from 'expo-font'
 import { MonoText } from '../components/StyledText';
 
 const Form = t.form.Form
@@ -23,6 +23,11 @@ const User = t.struct({
 })
 
 export default class HomeScreen extends Component {
+  componentDidMount(){
+    Font.loadAsync({
+      'Work Sans': require('../assets/fonts/WorkSans-Regular.ttf')
+    })
+  }
   handleSubmit = () => {
     const value = this._form.getValue()
     console.log("value", value)
@@ -35,6 +40,7 @@ export default class HomeScreen extends Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.iconContainer}>
+            <Text style={styles.name}>T I M B R E</Text>
             <Image
               source={
                 require('../assets/images/guitar.png')
@@ -42,15 +48,15 @@ export default class HomeScreen extends Component {
               style={styles.mainImage}
             />
           </View>
-  
+
           <View style={styles.formContainer}>
             <Text style={styles.formLabel}>Sign Up!</Text>
-            <Form 
+            <Form
               ref = {c => this._form = c}
               type={User}/>
             <Button title='Sign Up' onPress={this.handleSubmit}/>
           </View>
-          
+
         </ScrollView>
         <View style={styles.tabBarInfoContainer}>
           <View
@@ -70,6 +76,12 @@ HomeScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
+  name: {
+    fontFamily: 'Work Sans',
+    fontSize: 30,
+    textAlign: 'center',
+    paddingBottom: 20
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
