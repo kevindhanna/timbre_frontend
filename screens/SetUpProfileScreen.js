@@ -12,6 +12,7 @@ import {
   Button
 } from 'react-native';
 import t from 'tcomb-form-native'
+import MultiSelect from '../components/MultiSelect';
 
 const Form = t.form.Form
 
@@ -20,6 +21,8 @@ const ProfileForm = t.struct({
   lastName: t.String,
   bio: t.String,
 })
+
+
 
 
 export default class SetUpProfileScreen extends Component {
@@ -34,10 +37,8 @@ export default class SetUpProfileScreen extends Component {
 
   handleNext = () => {
     let value = this._form.getValue()
-    console.log('value', value)
     this.setState({page: ++this.state.page,
     formData: Object.assign(this.state.formData, value)})
-    console.log(this.state.formData)
   }
 
   formType = () => {
@@ -50,7 +51,10 @@ export default class SetUpProfileScreen extends Component {
         type={ProfileForm}/>
     )
       case 1:
-        return InstrumentForm
+        return(
+          <View style={styles.multiSelect}><MultiSelect/></View>
+
+        )
     }
   }
   render() {
@@ -78,5 +82,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 20,
     backgroundColor: '#ffffff'
+  },
+  multiSelect: {
+    marginTop: 100,
+    paddingBottom: 30
   }
 })
