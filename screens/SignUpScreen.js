@@ -22,7 +22,7 @@ const User = t.struct({
 })
 
 
-export default class HomeScreen extends Component {
+export default class SignUpScreen extends Component {
 
   constructor(props){
     super(props);
@@ -77,13 +77,34 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Home</Text>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}>
+          <View style={styles.iconContainer}>
+            <Text style={styles.name}>T I M B R E</Text>
+            <Image
+              source={
+                require('../assets/images/guitar.png')
+              }
+              style={styles.mainImage}
+            />
+          </View>
+
+          <View style={styles.formContainer}>
+            <Text style={styles.formLabel}>Sign Up!</Text>
+            <Form
+              ref = {c => this._form = c}
+              type={User}/>
+            {this.renderButton()}
+          </View>
+
+        </ScrollView>
       </View>
     );
   }
 }
 
-HomeScreen.navigationOptions = {
+SignUpScreen.navigationOptions = {
   header: null,
 };
 
