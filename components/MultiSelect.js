@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React, { Component, useLayoutEffect } from 'react';
+import { View, Text } from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 
 const items = [{
@@ -25,33 +25,29 @@ export default class InstrumentMultiSelect extends Component {
   constructor(props){
     super(props)
     this.state = {
-      selectedItems: []
+      selectedItems: [],
+      loading: true
     }
   }
 
 
   onSelectedItemsChange = selectedItems => {
-    console.log('inside function', selectedItems)
     this.setState({ selectedItems });
   };
 
-
-
   render = () => {
-    console.log(items, this.state.selectedItems, this.onSelectedItemsChange)
     const {selectedItems} = this.state
-    let selector
     return (
       <View style={{ flex: 1 }}>
         <MultiSelect
           items={items}
           uniqueKey="id"
-          ref={(component) => {selector = component }}
+          ref={(component) => { this.multiSelect = component }}
           onSelectedItemsChange={this.onSelectedItemsChange}
           selectedItems={selectedItems}
           selectText="Pick Items"
           searchInputPlaceholderText="Search Items..."
-          onChangeInput={ (text)=> console.log(text)}
+          // onChangeInput={ (text)=> console.log(text)}
           tagRemoveIconColor="#CCC"
           tagBorderColor="#CCC"
           tagTextColor="#CCC"
@@ -61,10 +57,10 @@ export default class InstrumentMultiSelect extends Component {
           displayKey="name"
           searchInputStyle={{ color: '#CCC' }}
           submitButtonColor="#CCC"
-          submitButtonText="Submit"
+          submitButtonText="Done"
         />
         <View>
-          {console.log(selector)}
+          {/* {this.multiSelect.getSelectedItemsExt(selectedItems)} */}
         </View>
       </View>
     );

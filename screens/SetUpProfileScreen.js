@@ -42,18 +42,20 @@ export default class SetUpProfileScreen extends Component {
   }
 
   formType = () => {
-
     switch (this.state.page){
       case 0:
       return(
-        <Form
-        ref = {c => this._form = c}
-        type={ProfileForm}/>
+        <View>
+          <Form
+          ref = {c => this._form = c}
+          type={ProfileForm}/>
+        </View>
     )
       case 1:
-        return(
-          <View style={styles.multiSelect}><MultiSelect/></View>
-
+        return (
+          <View style={styles.multiSelect}>
+            <MultiSelect/>
+          </View>
         )
     }
   }
@@ -62,8 +64,8 @@ export default class SetUpProfileScreen extends Component {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           {this.formType()}
-        <Button title='next' onPress= {this.handleNext}></Button>
-      </View>
+          <Button title='next' onPress= {this.handleNext}></Button>
+        </View>
       </View>
     );
   }
@@ -78,13 +80,13 @@ const styles = StyleSheet.create({
     fontSize: 100
   },
   formContainer: {
-    justifyContent: 'center',
     marginTop: 10,
     padding: 20,
     backgroundColor: '#ffffff'
   },
   multiSelect: {
-    marginTop: 100,
-    paddingBottom: 30
+    height: '50%',
+    width: '80%',
+    marginTop: 100
   }
 })
