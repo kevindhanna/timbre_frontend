@@ -52,17 +52,22 @@ export default class SignUpScreen extends Component {
 
     return fetch('http://192.168.50.238:3000/users', data)
       .then((response) => response.json())
-      .then((responseJson) => {
+      .then(async (responseJson) => {
         console.log(responseJson)
-        AsyncStorage.setItem('userToken', responseJson.token);
+         await AsyncStorage.setItem('userToken', responseJson.token);
         this.setState({
           isLoading: false,
         });
-        this.props.navigation.navigate('App')
+        this.props.navigation.navigate('SetUpProfile')
       })
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  loginUser =  async() => {
+    await AsyncStorage.setItem('userToken', 'fakeToken')
+    this.props.navigation.navigate('SetUpProfile')
   }
 
   renderButton = () => {
@@ -98,6 +103,7 @@ export default class SignUpScreen extends Component {
               ref = {c => this._form = c}
               type={User}/>
             {this.renderButton()}
+            <Button title='Skip' onPress= {this.loginUser}></Button>
           </View>
 
         </ScrollView>
