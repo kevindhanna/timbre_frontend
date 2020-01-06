@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
   Button
 } from 'react-native';
 import t from 'tcomb-form-native'
@@ -22,15 +23,57 @@ const User = t.struct({
   password: t.String,
 })
 
+
 export default class HomeScreen extends Component {
-  componentDidMount(){
-    Font.loadAsync({
-      'Work Sans': require('../assets/fonts/WorkSans-Regular.ttf')
-    })
+
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoading: false,
+    }
   }
+
   handleSubmit = () => {
     const value = this._form.getValue()
     console.log("value", value)
+    let data = {
+      method: 'POST',
+      body: JSON.stringify({
+        email: value.email,
+        password: value.password,
+        username: value.username
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }
+    this.setState({isLoading: true})
+    console.log('data', data)
+
+    return fetch('http://192.168.50.234:3000/users', data)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+          data: responseJson.data,
+        });
+        alert(JSON.stringify(responseJson));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  renderButton = () => {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.spinnerStyle} ><ActivityIndicator size={'large'}/></View>
+      )
+    }
+    return (
+      <Button title='Sign Up' onPress={this.handleSubmit}/>
+    )
   }
 
   render() {
@@ -54,7 +97,7 @@ export default class HomeScreen extends Component {
             <Form
               ref = {c => this._form = c}
               type={User}/>
-            <Button title='Sign Up' onPress={this.handleSubmit}/>
+            {this.renderButton()}
           </View>
 
         </ScrollView>
