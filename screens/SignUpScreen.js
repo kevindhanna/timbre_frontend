@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  AsyncStorage,
   Button
 } from 'react-native';
 import t from 'tcomb-form-native'
@@ -49,14 +50,15 @@ export default class SignUpScreen extends Component {
     this.setState({isLoading: true})
     console.log('data', data)
 
-    return fetch('http://192.168.50.234:3000/users', data)
+    return fetch('http://192.168.50.238:3000/users', data)
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log(responseJson)
+        AsyncStorage.setItem('userToken', responseJson.token);
         this.setState({
           isLoading: false,
-          data: responseJson.data,
         });
-        alert(JSON.stringify(responseJson));
+        this.props.navigation.navigate('App')
       })
       .catch((error) => {
         console.error(error);

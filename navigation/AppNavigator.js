@@ -7,13 +7,12 @@ import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 
-const AppStack = createStackNavigator({ Home: HomeScreen },);
 const AuthStack = createStackNavigator({ SignUp: SignUpScreen });
 
 export default createAppContainer(
   createSwitchNavigator({
       AuthLoading: AuthLoadingScreen,
-      App: AppStack,
+      App: MainTabNavigator,
       Auth: AuthStack,
     },
     {
