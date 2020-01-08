@@ -30,6 +30,10 @@ export default class InstrumentMultiSelect extends Component {
     }
   }
 
+  getValue = () => {
+    return {instruments: this.state.selectedItems}
+  }
+
 
   onSelectedItemsChange = selectedItems => {
     this.setState({ selectedItems });
