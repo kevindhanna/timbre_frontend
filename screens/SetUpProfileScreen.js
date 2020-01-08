@@ -79,7 +79,7 @@ export default class SetUpProfileScreen extends Component {
               ratingColor='#F53225'
               ratingBackgroundColor='white'
               ratingCount={5}
-              imageSize={30}
+              imageSize={35}
               onFinishRating={console.log}
               style={{ paddingVertical: 10 }}
             />
