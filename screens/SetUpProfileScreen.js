@@ -13,14 +13,20 @@ import {
 } from 'react-native';
 import t from 'tcomb-form-native'
 import MultiSelect from '../components/MultiSelect';
+import { Rating } from 'react-native-elements'
 
 const Form = t.form.Form
+
+const PLECTRUM_IMAGE = require('../assets/images/plectrum.png')
 
 const ProfileForm = t.struct({
   firstName: t.String,
   lastName: t.String,
   bio: t.String,
 })
+
+
+
 
 
 
@@ -58,7 +64,27 @@ export default class SetUpProfileScreen extends Component {
           <View style={styles.multiSelect}>
             <MultiSelect ref={c => this._form = c}/>
           </View>
-        )
+      )
+      case 2:
+        let struct = this.state.formData.instruments.reduce((result, instrument)=>{
+                    result[instrument] = t.Number
+                    return result
+                    }, {})
+        console.log(struct)
+        return(
+          <View>
+            <Rating
+              type='custom'
+              ratingImage={PLECTRUM_IMAGE}
+              ratingColor='#F53225'
+              ratingBackgroundColor='white'
+              ratingCount={5}
+              imageSize={30}
+              onFinishRating={console.log}
+              style={{ paddingVertical: 10 }}
+            />
+          </View>
+      )
     }
   }
   render() {
