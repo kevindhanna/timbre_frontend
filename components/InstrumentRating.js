@@ -5,6 +5,18 @@ import { Rating } from 'react-native-elements'
 // import { FlatList } from 'react-native-gesture-handler';
 
 const GUITAR_IMAGE = require('../assets/images/guitar.png')
+const DRUMS_IMAGE = require('../assets/images/drums.png')
+const BASS_IMAGE = require('../assets/images/bass.png')
+const PIANO_IMAGE = require('../assets/images/piano.png')
+const VOCALS_IMAGE = require('../assets/images/vocals.png')
+
+const instrumentIcons = {
+  guitar: {icon: GUITAR_IMAGE, color: "#F53225"},
+  bass: {icon: BASS_IMAGE, color: "#110655"},
+  drums: {icon: DRUMS_IMAGE, color: "#5e868e"},
+  piano: {icon: PIANO_IMAGE, color: "#dfc645"},
+  vocals: {icon: VOCALS_IMAGE, color: "#C0C0C0"}
+}
 
 const list = [
   {
@@ -32,8 +44,8 @@ export default class InstrumentRating extends React.Component {
         <Text style={styles.instrument_title}>{instrument.item.charAt(0).toUpperCase() + instrument.item.slice(1) + ": "}</Text>
         <Rating
           type='custom'
-          ratingImage={GUITAR_IMAGE}
-          ratingColor='#F53225'
+          ratingImage={instrumentIcons[instrument.item].icon}
+          ratingColor={instrumentIcons[instrument.item].color}
           ratingBackgroundColor='white'
           ratingCount={5}
           imageSize={35}
@@ -43,16 +55,6 @@ export default class InstrumentRating extends React.Component {
     )
   }
 
-  // renderRow ({ item }) {
-  //   return (
-  //     <ListItem
-  //       roundAvatar
-  //       title={item.name}
-  //       subtitle={item.subtitle}
-  //       avatar={{uri:item.avatar_url}}
-  //     />
-  //   )
-  // }
   render () {
     return (
       <View style={styles.instrument_rating_container}>
