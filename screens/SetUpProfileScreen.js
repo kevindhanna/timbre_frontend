@@ -35,10 +35,8 @@ export default class SetUpProfileScreen extends Component {
 
   handleNext = () => {
     let value = this._form.getValue()
-    console.log('value', value)
     this.setState({page: ++this.state.page,
     formData: Object.assign(this.state.formData, value)})
-    console.log('data', this.state.formData)
   }
 
   formType = () => {
@@ -60,6 +58,7 @@ export default class SetUpProfileScreen extends Component {
       case 2:
           return(
             <InstrumentRating 
+              ref = {c => this._form = c}
               instruments={this.state.formData.instruments}
               setInstruments={this.setState}/>
           )

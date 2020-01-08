@@ -34,13 +34,30 @@ const list = [
 export default class InstrumentRating extends React.Component {
   constructor(props) {
     super(props)
-    console.log(this.props.instruments)
+    this.state = {
+      instrumentValues: {instruments: {}}
+    }
+  }
+
+  getValue = () => {
+    console.log("inside instrument rating, instrument object: ", this.state.instrumentValues)
+    return this.state.instrumentValues
+  }
+
+  setRating = (instrument, rating) => {
+    console.log("setRating, instrument, rating: ", instrument, rating )
+    let newVal = this.state.instrumentValues.instruments
+    newVal[instrument] = rating
+    console.log("newVal: ", newVal)
+    this.setState({
+      instrumentValues: {instruments: newVal}
+    })
+    console.log('state has been set')
   }
 
   renderRow = (instrument) => {
-    console.log(instrument, "instrument")
     return (
-      <View style={styles.row}>
+      <View style={styles.row} key={instrument.item}>
         <Text style={styles.instrument_title}>{instrument.item.charAt(0).toUpperCase() + instrument.item.slice(1) + ": "}</Text>
         <Rating
           type='custom'
@@ -49,7 +66,7 @@ export default class InstrumentRating extends React.Component {
           ratingBackgroundColor='white'
           ratingCount={5}
           imageSize={35}
-          onFinishRating={console.log}
+          onFinishRating={(rating)=>{this.setRating(instrument.item, rating)}}
           style={{ paddingVertical: 10 }}/>
       </View>
     )
@@ -59,6 +76,7 @@ export default class InstrumentRating extends React.Component {
     return (
       <View style={styles.instrument_rating_container}>
         <FlatList
+          keyExtractor={item=>item}
           data={this.props.instruments}
           renderItem={this.renderRow}
         />
