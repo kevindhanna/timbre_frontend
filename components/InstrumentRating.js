@@ -40,19 +40,19 @@ export default class InstrumentRating extends React.Component {
   }
 
   getValue = () => {
-    console.log("inside instrument rating, instrument object: ", this.state.instrumentValues)
-    return this.state.instrumentValues
+    const instrumentObject = this.state.instrumentValues.instruments
+    const result = Object.keys(instrumentObject).map(function(key) {
+      return {instrument: key, rating: instrumentObject[key]};
+    });
+    return {instruments: result}
   }
 
   setRating = (instrument, rating) => {
-    console.log("setRating, instrument, rating: ", instrument, rating )
     let newVal = this.state.instrumentValues.instruments
     newVal[instrument] = rating
-    console.log("newVal: ", newVal)
     this.setState({
       instrumentValues: {instruments: newVal}
     })
-    console.log('state has been set')
   }
 
   renderRow = (instrument) => {

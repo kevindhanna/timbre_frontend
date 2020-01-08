@@ -14,6 +14,7 @@ import {
 import t from 'tcomb-form-native'
 import MultiSelect from '../components/MultiSelect';
 import InstrumentRating from '../components/InstrumentRating';
+import FormSummary from '../components/FormSummary';
 
 const Form = t.form.Form
 
@@ -75,6 +76,7 @@ export default class SetUpProfileScreen extends Component {
       return(
         <View>
           <Text style={styles.heading}>Does this look right?</Text>
+          <FormSummary formData = {this.state.formData}/>
           <Button title='Finish' onPress= {this.handleSubmit}></Button>
         </View>
       )
