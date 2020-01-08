@@ -1,5 +1,5 @@
 import React, { Component, useLayoutEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 
 const items = [{
@@ -42,7 +42,7 @@ export default class InstrumentMultiSelect extends Component {
   render = () => {
     const {selectedItems} = this.state
     return (
-      <View style={{ flex: 1 }}>
+      <View>
         <MultiSelect
           items={items}
           uniqueKey="id"
@@ -63,9 +63,6 @@ export default class InstrumentMultiSelect extends Component {
           submitButtonColor="#CCC"
           submitButtonText="Done"
         />
-        <View>
-          {/* {this.multiSelect.getSelectedItemsExt(selectedItems)} */}
-        </View>
       </View>
     );
   }

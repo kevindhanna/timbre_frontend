@@ -44,24 +44,40 @@ export default class SetUpProfileScreen extends Component {
       case 0:
       return(
         <View>
+          <Text style={styles.heading}>Lets set up your profile</Text>
           <Form
             ref = {c => this._form = c}
             type={ProfileForm}/>
+          <Button title='next' onPress= {this.handleNext}></Button>
         </View>
     )
       case 1:
         return (
+          <View><Text style={styles.heading}>What do you play?</Text>
           <View style={styles.multiSelect}>
             <MultiSelect ref={c => this._form = c}/>
+            <Button title='next' onPress= {this.handleNext}></Button>
+          </View>
           </View>
       )
       case 2:
           return(
-            <InstrumentRating 
-              ref = {c => this._form = c}
-              instruments={this.state.formData.instruments}
-              setInstruments={this.setState}/>
+            <View>
+              <Text style={styles.heading}>How do you rate your playing?</Text>
+              <InstrumentRating
+                ref = {c => this._form = c}
+                instruments={this.state.formData.instruments}
+                setInstruments={this.setState}/>
+              <Button title='next' onPress= {this.handleNext}></Button>
+            </View>
           )
+      case 3:
+      return(
+        <View>
+          <Text style={styles.heading}>Does this look right?</Text>
+          <Button title='Finish' onPress= {this.handleSubmit}></Button>
+        </View>
+      )
     }
   }
   render() {
@@ -69,7 +85,6 @@ export default class SetUpProfileScreen extends Component {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           {this.formType()}
-          <Button title='next' onPress= {this.handleNext}></Button>
         </View>
       </View>
     );
@@ -81,6 +96,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  heading: {
+    textAlign: 'center',
+    fontSize: 30,
+    marginBottom: 30
+  },
   text: {
     fontSize: 100
   },
@@ -91,7 +111,8 @@ const styles = StyleSheet.create({
   },
   multiSelect: {
     height: '50%',
-    width: '80%',
-    marginTop: 100
+    width: '100%',
+    marginTop: 40,
+    justifyContent: 'center'
   }
 })
