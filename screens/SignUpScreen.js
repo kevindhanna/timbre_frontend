@@ -91,7 +91,7 @@ export default class SignUpScreen extends Component {
             <Text style={styles.name}>T I M B R E</Text>
             <Image
               source={
-                require('../assets/images/guitar.png')
+                require('../assets/images/timbre_logo.png')
               }
               style={styles.mainImage}
             />

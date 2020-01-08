@@ -13,23 +13,15 @@ import {
 } from 'react-native';
 import t from 'tcomb-form-native'
 import MultiSelect from '../components/MultiSelect';
-import { Rating } from 'react-native-elements'
+import InstrumentRating from '../components/InstrumentRating';
 
 const Form = t.form.Form
-
-const PLECTRUM_IMAGE = require('../assets/images/plectrum.png')
 
 const ProfileForm = t.struct({
   firstName: t.String,
   lastName: t.String,
   bio: t.String,
 })
-
-
-
-
-
-
 
 export default class SetUpProfileScreen extends Component {
 
@@ -55,8 +47,8 @@ export default class SetUpProfileScreen extends Component {
       return(
         <View>
           <Form
-          ref = {c => this._form = c}
-          type={ProfileForm}/>
+            ref = {c => this._form = c}
+            type={ProfileForm}/>
         </View>
     )
       case 1:
@@ -66,25 +58,11 @@ export default class SetUpProfileScreen extends Component {
           </View>
       )
       case 2:
-        let struct = this.state.formData.instruments.reduce((result, instrument)=>{
-                    result[instrument] = t.Number
-                    return result
-                    }, {})
-        console.log(struct)
-        return(
-          <View>
-            <Rating
-              type='custom'
-              ratingImage={PLECTRUM_IMAGE}
-              ratingColor='#F53225'
-              ratingBackgroundColor='white'
-              ratingCount={5}
-              imageSize={35}
-              onFinishRating={console.log}
-              style={{ paddingVertical: 10 }}
-            />
-          </View>
-      )
+          return(
+            <InstrumentRating 
+              instruments={this.state.formData.instruments}
+              setInstruments={this.setState}/>
+          )
     }
   }
   render() {
