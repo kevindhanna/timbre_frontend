@@ -46,10 +46,10 @@ HomeScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   SignOut: {
-    fontSize: 500
+    // fontSize: 500
   },
   name: {
-    fontSize: 500
+    fontSize: 100
 
   },
   container: {
