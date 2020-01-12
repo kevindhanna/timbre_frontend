@@ -50,11 +50,12 @@ export default class SignUpScreen extends Component {
     this.setState({isLoading: true})
     console.log('data', data)
 
-    return fetch('http://192.168.50.238:3000/users', data)
+    return fetch('http://192.168.51.55:3000/users', data)
       .then((response) => response.json())
       .then(async (responseJson) => {
         console.log(responseJson)
          await AsyncStorage.setItem('userToken', responseJson.token);
+         await AsyncStorage.setItem('userId', responseJson.userId)
         this.setState({
           isLoading: false,
         });

@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  AsyncStorage,
   ActivityIndicator,
   Button
 } from 'react-native';
@@ -38,6 +39,31 @@ export default class SetUpProfileScreen extends Component {
     let value = this._form.getValue()
     this.setState({page: ++this.state.page,
     formData: Object.assign(this.state.formData, value)})
+  }
+
+  handleSubmit = async () => {
+    const userToken = await AsyncStorage.getItem('userToken')
+    const userId = await AsyncStorage.getItem('userId')
+    let value = this.state.formData
+    console.log(value)
+    let data = {
+      method: 'PATCH',
+      body: JSON.stringify(value),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization' : userToken
+      }
+    }
+    return fetch('http://192.168.51.55:3000/users/'+ userId, data)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log('hello',responseJson)
+        this.props.navigation.navigate('Home')
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   formType = () => {
