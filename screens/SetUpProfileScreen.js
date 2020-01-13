@@ -112,6 +112,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  button1: {
+    paddingTop: 200
+  },
   heading: {
     textAlign: 'center',
     fontSize: 30,
