@@ -20,6 +20,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
+    "infoPlist": {
+      "NSLocationWhenInUseUsageDescription": "This app uses the location to Match Musicians."
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
