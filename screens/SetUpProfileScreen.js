@@ -12,21 +12,12 @@ import {
   ActivityIndicator,
   Button
 } from 'react-native';
-import t from 'tcomb-form-native'
 import MultiSelect from '../components/MultiSelect';
 import InstrumentRating from '../components/InstrumentRating';
 import FormSummary from '../components/FormSummary';
-
-const Form = t.form.Form
-
-const ProfileForm = t.struct({
-  firstName: t.String,
-  lastName: t.String,
-  bio: t.String,
-})
+import ProfileInfo from '../components/ProfileInfo';
 
 export default class SetUpProfileScreen extends Component {
-
   constructor(props){
     super(props)
     this.state = {
@@ -71,10 +62,7 @@ export default class SetUpProfileScreen extends Component {
       case 0:
       return(
         <View>
-          <Text style={styles.heading}>Lets set up your profile</Text>
-          <Form
-            ref = {c => this._form = c}
-            type={ProfileForm}/>
+          <ProfileInfo ref={c => this._form = c._form} />
           <Button title='next' onPress= {this.handleNext}></Button>
         </View>
     )
