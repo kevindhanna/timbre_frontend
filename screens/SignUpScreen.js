@@ -50,7 +50,7 @@ export default class SignUpScreen extends Component {
     this.setState({isLoading: true})
     console.log('data', data)
 
-    return fetch('http://192.168.51.55:3000/users', data)
+    return fetch('http://192.168.48.248:3000/users', data)
       .then((response) => response.json())
       .then(async (responseJson) => {
         console.log(responseJson)

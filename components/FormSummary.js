@@ -33,7 +33,7 @@ export default class FormSummary extends Component {
     return(
       <View>
         <FlatList
-            keyExtractor={item=>item.index}
+            keyExtractor={ item => item.instrument }
             data={instruments}
             renderItem={this.renderRow} />
       </View>

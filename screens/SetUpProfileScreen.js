@@ -55,7 +55,7 @@ export default class SetUpProfileScreen extends Component {
         'Authorization' : userToken
       }
     }
-    return fetch('http://192.168.51.55:3000/users/'+ userId, data)
+    return fetch('http://192.168.48.248:3000/users/'+ userId, data)
       .then((response) => response.json())
       .then((responseJson) => {
         console.log('hello',responseJson)
