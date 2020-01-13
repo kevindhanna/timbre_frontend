@@ -131,7 +131,8 @@ const styles = StyleSheet.create({
   formLabel: {
     textAlign: 'center',
     fontSize: 30,
-    paddingBottom: 20
+    paddingBottom: 20,
+    fontFamily: 'Nunito Sans'
   },
   formContainer: {
     justifyContent: 'center',

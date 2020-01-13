@@ -16,14 +16,6 @@ function cacheFonts(fonts) {
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-// const customTextProps = {
-//   style: {
-//     fontFamily: 'Cute Fonts'
-//   }
-// };
-
-// setCustomText(customTextProps);
-
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
       <AppLoading
@@ -60,7 +52,8 @@ async function loadResourcesAsync() {
   const fonts = [
     {'Work Sans': require('./assets/fonts/WorkSans-Regular.ttf')},
     {'Nunito Sans': require('./assets/fonts/NunitoSans-Regular.ttf')},
-    {'Cute Font': require('./assets/fonts/CuteFont-Regular.ttf')}
+    {'Cute Font': require('./assets/fonts/CuteFont-Regular.ttf')},
+    {...Ionicons.font}
   ]
 
   const fontAssets = cacheFonts(fonts);
