@@ -1,15 +1,12 @@
 import { AppLoading } from 'expo';
-import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { setCustomText } from 'react-native-global-props';
 
 import AppNavigator from './navigation/AppNavigator';
 
 function cacheFonts(fonts) {
-  console.log('inside cache')
   return fonts.map(font => Font.loadAsync(font));
 }
 
