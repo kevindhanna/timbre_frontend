@@ -1,8 +1,10 @@
 import { createStore, combineReducers } from 'redux';
 import formDataReducer from './reducers/formDataReducer'
+import locationReducer from './reducers/locationReducer'
 
 const rootReducer = combineReducers({
-  profileForm: formDataReducer
+  profileForm: formDataReducer,
+  location: locationReducer
 })
 
 const configureStore = () => {

@@ -18,6 +18,8 @@ import InstrumentRating from '../components/InstrumentRating';
 import FormSummary from '../components/FormSummary';
 import ProfileInfo from '../components/ProfileInfo';
 import { updateFormData } from '../actions/updateFormData'
+import BACKEND_IP from '../.env'
+
 
 class SetUpProfileScreen extends Component {
   constructor(props){
@@ -35,11 +37,11 @@ class SetUpProfileScreen extends Component {
     const userToken = await AsyncStorage.getItem('userToken')
     const userId = await AsyncStorage.getItem('userId')
     let value = {
-      location: this.props.formData.locationData,
+      location: {friendlyName: this.props.formData.locationData.description},
       firstName: this.props.formData.personalInfo.firstName,
       lastName: this.props.formData.personalInfo.lastName,
       bio: this.props.formData.personalInfo.bio,
-      instruments: this.formData.instruments
+      instruments: this.props.formData.instruments
     }
     let data = {
       method: 'PATCH',
@@ -50,7 +52,7 @@ class SetUpProfileScreen extends Component {
         'Authorization' : userToken
       }
     }
-    return fetch('http://192.168.48.248:3000/users/'+ userId, data)
+    return fetch('http://192.168.48.223:3000/users/'+ userId, data)
       .then((response) => response.json())
       .then((responseJson) => {
         this.props.navigation.navigate('Home')

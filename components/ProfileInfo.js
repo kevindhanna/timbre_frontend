@@ -5,6 +5,9 @@ import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import { GMAPS_API_KEY, GOOGLE_PLACES } from '../.env.js'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { connect} from 'react-redux'
+import { updateLocation } from '../actions/updateLocation'
+
 
 const Form = t.form.Form
 
@@ -14,7 +17,7 @@ const ProfileForm = t.struct({
   bio: t.String,
 })
 
-export default class FormSummary extends Component {
+class ProfileInfo extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -35,8 +38,8 @@ export default class FormSummary extends Component {
       fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GMAPS_API_KEY}`)
       .then((response)=>response.json())
       .then((responseJSON)=> {
+        this.props.update(responseJSON)
         this.setState({loading: false});
-        this.locationData = responseJSON
       }).catch((err)=>{console.log(err)})
     })
   };
@@ -44,7 +47,6 @@ export default class FormSummary extends Component {
     console.log(this._form.getValue())
     return {
       personalInfo: this._form.getValue(),
-      locationData: this.locationData
     }
   }
   render() {
@@ -69,7 +71,7 @@ export default class FormSummary extends Component {
               fetchDetails={true}
               renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                this.locationData = data
+                this.props.update(data)
               }}
               getDefaultValue={() => {return "here"}}
               query={{
@@ -121,3 +123,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   }
 })
+
+const mapDispatchToProps = dispatch => {
+  return {
+    update: (newLocation) => {
+      dispatch(updateLocation(newLocation))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(ProfileInfo)

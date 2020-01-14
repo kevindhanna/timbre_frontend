@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
+import { connect} from 'react-redux'
 
 
 const profMap = {
@@ -12,16 +13,12 @@ const profMap = {
   [5]: 'God'
 }
 
-export default class FormSummary extends Component {
+class FormSummary extends Component {
 
   renderProfile = () => {
     const formData = this.props.formData
     return(
-      <View>
-      <Text>{ 'Name:' + formData.personalInfo.firstName + ' ' + formData.personalInfo.lastName }</Text>
-      <Text>{ 'Bio:' + formData.personalInfo.bio }</Text>
-      <Text>{ "Location: " + formData.locationData.description } </Text>
-      </View>
+      <Text>{this.props}</Text>
     )
   }
 
@@ -59,3 +56,12 @@ export default class FormSummary extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    location: state.location,
+
+  }
+}
+
+export default connect(mapStateToProps, null)(FormSummary)
