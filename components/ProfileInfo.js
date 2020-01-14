@@ -5,12 +5,15 @@ import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import { GMAPS_API_KEY, GOOGLE_PLACES } from '../.env.js'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+
 const Form = t.form.Form
+
 const ProfileForm = t.struct({
   firstName: t.String,
   lastName: t.String,
   bio: t.String,
 })
+
 export default class FormSummary extends Component {
   constructor(props) {
     super(props)
@@ -38,14 +41,13 @@ export default class FormSummary extends Component {
     })
   };
   getValue = () => {
+    console.log(this._form.getValue())
     return {
       personalInfo: this._form.getValue(),
       locationData: this.locationData
     }
   }
   render() {
-    console.log(this.state)
-    console.log(this.locationData)
     return this.loading
     ? (
       <ActivityIndicator />
@@ -69,7 +71,7 @@ export default class FormSummary extends Component {
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                 this.locationData = data
               }}
-              getDefaultValue={() => this.locationData.results[2].address_components[2].long_name}
+              getDefaultValue={() => {return "here"}}
               query={{
                 // available options: https://developers.google.com/places/web-service/autocomplete
                 key: GOOGLE_PLACES,

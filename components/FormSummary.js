@@ -18,8 +18,9 @@ export default class FormSummary extends Component {
     const formData = this.props.formData
     return(
       <View>
-      <Text>{ 'Name:' + formData.firstName + ' ' + formData.lastName }</Text>
-      <Text>{ 'Bio:' + formData.bio }</Text>
+      <Text>{ 'Name:' + formData.personalInfo.firstName + ' ' + formData.personalInfo.lastName }</Text>
+      <Text>{ 'Bio:' + formData.personalInfo.bio }</Text>
+      <Text>{ "Location: " + formData.locationData.description } </Text>
       </View>
     )
   }

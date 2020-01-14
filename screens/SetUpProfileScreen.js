@@ -1,4 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import {
   Image,
@@ -16,27 +17,24 @@ import MultiSelect from '../components/MultiSelect';
 import InstrumentRating from '../components/InstrumentRating';
 import FormSummary from '../components/FormSummary';
 import ProfileInfo from '../components/ProfileInfo';
+import { updateFormData } from '../actions/updateFormData'
 
-export default class SetUpProfileScreen extends Component {
+class SetUpProfileScreen extends Component {
   constructor(props){
     super(props)
-    this.state = {
-      page: 0,
-      formData: {}
-    }
   }
 
   handleNext = () => {
     let value = this._form.getValue()
-    this.setState({page: ++this.state.page,
-    formData: Object.assign(this.state.formData, value)})
+    console.log(value)
+    this.props.update(value)
+    console.log(this.props.formData)
   }
 
   handleSubmit = async () => {
     const userToken = await AsyncStorage.getItem('userToken')
     const userId = await AsyncStorage.getItem('userId')
-    let value = this.state.formData
-    console.log(value)
+    let value = this.props.formData
     let data = {
       method: 'PATCH',
       body: JSON.stringify(value),
@@ -49,7 +47,6 @@ export default class SetUpProfileScreen extends Component {
     return fetch('http://192.168.48.248:3000/users/'+ userId, data)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log('hello',responseJson)
         this.props.navigation.navigate('Home')
       })
       .catch((error) => {
@@ -58,7 +55,7 @@ export default class SetUpProfileScreen extends Component {
   }
 
   formType = () => {
-    switch (this.state.page){
+    switch (this.props.page){
       case 0:
       return(
         <View>
@@ -81,7 +78,7 @@ export default class SetUpProfileScreen extends Component {
               <Text style={styles.heading}>How do you rate your playing?</Text>
               <InstrumentRating
                 ref = {c => this._form = c}
-                instruments={this.state.formData.instruments}
+                instruments={this.props.formData.instruments}
                 setInstruments={this.setState}/>
               <Button title='next' onPress= {this.handleNext}></Button>
             </View>
@@ -90,7 +87,7 @@ export default class SetUpProfileScreen extends Component {
       return(
         <View>
           <Text style={styles.heading}>Does this look right?</Text>
-          <FormSummary formData = {this.state.formData}/>
+          <FormSummary formData = {this.props.formData}/>
           <Button title='Finish' onPress= {this.handleSubmit}></Button>
         </View>
       )
@@ -135,3 +132,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 })
+
+const mapStateToProps = state => {
+  return {
+    page: state.profileForm.page,
+    formData: state.profileForm.formData
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    update: (newFormData) => {
+      dispatch(updateFormData(newFormData))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SetUpProfileScreen)
