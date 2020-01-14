@@ -18,7 +18,7 @@ export default class FormSummary extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      location: null,
+      locationData: null,
       errorMessage: null
     }
   }
@@ -37,13 +37,20 @@ export default class FormSummary extends Component {
       fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GMAPS_API_KEY}`)
       .then((response)=>response.json())
       .then((responseJSON)=> {
-        this.setState({location: responseJSON});
+        this.setState({locationData: responseJSON});
       }).catch((err)=>{console.log(err)})
     })
   };
 
+  getValue = () => {
+    return {
+      personalInfo: this._form.getValue(),
+      location: this.state.locationData
+    }
+  }
+
   render() {
-    return this.state.location
+    return this.state.locationData
     ? (
       <View>
         <Text style={styles.heading}>Lets set up your profile</Text>
@@ -51,8 +58,8 @@ export default class FormSummary extends Component {
               ref = {c => this._form = c}
               type={ProfileForm}/>
         <View style={styles.locationContainer}>
+            <Text>Location: </Text>
             <GooglePlacesAutocomplete
-              placeholder='Search'
               minLength={2} // minimum length of text to search
               autoFocus={false}
               returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
@@ -61,9 +68,9 @@ export default class FormSummary extends Component {
               fetchDetails={true}
               renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                console.log(data, details);
+                this.setState({locationData: data})
               }}
-              getDefaultValue={() => ''}
+              getDefaultValue={() => this.state.locationData.results[2].address_components[2].long_name}
               query={{
                 // available options: https://developers.google.com/places/web-service/autocomplete
                 key: GOOGLE_PLACES,
@@ -81,8 +88,6 @@ export default class FormSummary extends Component {
                   color: '#1faadb'
                 }
               }}
-              currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-              currentLocationLabel="Current location"
               nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
               GoogleReverseGeocodingQuery={{
                 // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro

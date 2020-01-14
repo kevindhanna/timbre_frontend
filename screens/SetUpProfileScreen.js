@@ -28,6 +28,7 @@ export default class SetUpProfileScreen extends Component {
 
   handleNext = () => {
     let value = this._form.getValue()
+    console.log(value)
     this.setState({page: ++this.state.page,
     formData: Object.assign(this.state.formData, value)})
   }
@@ -62,7 +63,7 @@ export default class SetUpProfileScreen extends Component {
       case 0:
       return(
         <View>
-          <ProfileInfo ref={c => this._form = c._form} />
+          <ProfileInfo ref={c => this._form = c} />
           <Button title='next' onPress= {this.handleNext}></Button>
         </View>
     )
