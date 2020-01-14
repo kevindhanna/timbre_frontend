@@ -34,7 +34,13 @@ class SetUpProfileScreen extends Component {
   handleSubmit = async () => {
     const userToken = await AsyncStorage.getItem('userToken')
     const userId = await AsyncStorage.getItem('userId')
-    let value = this.props.formData
+    let value = {
+      location: this.props.formData.locationData,
+      firstName: this.props.formData.personalInfo.firstName,
+      lastName: this.props.formData.personalInfo.lastName,
+      bio: this.props.formData.personalInfo.bio,
+      instruments: this.formData.instruments
+    }
     let data = {
       method: 'PATCH',
       body: JSON.stringify(value),
