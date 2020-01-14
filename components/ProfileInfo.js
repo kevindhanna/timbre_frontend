@@ -32,25 +32,25 @@ export default class FormSummary extends Component {
     if (status !== 'granted') {
       this.setState({errorMessage:'Permission to access location was denied'});
     }
-    Location.getCurrentPositionAsync({})
-    .then((location)=>{
-      fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GMAPS_API_KEY}`)
-      .then((response)=>response.json())
-      .then((responseJSON)=> {
-        this.setState({locationData: responseJSON});
-      }).catch((err)=>{console.log(err)})
-    })
+    // Location.getCurrentPositionAsync({})
+    // .then((location)=>{
+    //   fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GMAPS_API_KEY}`)
+    //   .then((response)=>response.json())
+    //   .then((responseJSON)=> {
+    //     this.setState({locationData: responseJSON});
+    //   }).catch((err)=>{console.log(err)})
+    // })
   };
 
   getValue = () => {
     return {
       personalInfo: this._form.getValue(),
-      location: this.state.locationData
+      location: this.locationData
     }
   }
 
   render() {
-    return this.state.locationData
+    return true
     ? (
       <View>
         <Text style={styles.heading}>Lets set up your profile</Text>
@@ -68,9 +68,9 @@ export default class FormSummary extends Component {
               fetchDetails={true}
               renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                this.setState({locationData: data})
+                this.locationData = data
+                console.log('data')
               }}
-              getDefaultValue={() => this.state.locationData.results[2].address_components[2].long_name}
               query={{
                 // available options: https://developers.google.com/places/web-service/autocomplete
                 key: GOOGLE_PLACES,
@@ -88,7 +88,9 @@ export default class FormSummary extends Component {
                   color: '#1faadb'
                 }
               }}
-              nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+              currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+              currentLocationLabel="Current location"
+              nearbyPlacesAPI='GoogleReverseGeocoding' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
               GoogleReverseGeocodingQuery={{
                 // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
               }}
@@ -101,7 +103,7 @@ export default class FormSummary extends Component {
                 // available options for GooglePlacesDetails API : https://developers.google.com/places/web-service/details
                 fields: 'formatted_address',
               }}
-              filterReverseGeocodingByTypes={['locality', 'administrative_area_level_4']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+              filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
               debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
             />
         </View>
