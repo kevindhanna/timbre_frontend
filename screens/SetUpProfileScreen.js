@@ -28,7 +28,6 @@ export default class SetUpProfileScreen extends Component {
 
   handleNext = () => {
     let value = this._form.getValue()
-    console.log(value)
     this.setState({page: ++this.state.page,
     formData: Object.assign(this.state.formData, value)})
   }
