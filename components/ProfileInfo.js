@@ -43,12 +43,14 @@ class ProfileInfo extends Component {
       }).catch((err)=>{console.log(err)})
     })
   };
+
   getValue = () => {
-    console.log(this._form.getValue())
+    console.log(this._form)
     return {
       personalInfo: this._form.getValue(),
     }
   }
+  
   render() {
     return this.loading
     ? (
