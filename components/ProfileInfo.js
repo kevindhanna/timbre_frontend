@@ -1,13 +1,18 @@
-import React, { Component} from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import React, { Component } from 'react';
+import { 
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Button 
+} from 'react-native';
 import t from 'tcomb-form-native'
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import { GMAPS_API_KEY, GOOGLE_PLACES } from '../.env.js'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { connect} from 'react-redux'
-import { updateLocation } from '../actions/updateLocation'
-
+import { updateFormData } from '../actions/updateFormData'
 
 const Form = t.form.Form
 
@@ -25,7 +30,7 @@ class ProfileInfo extends Component {
       errorMessage: null
     }
   }
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     await this._getLocationAsync()
   }
   _getLocationAsync = async () => {
@@ -38,17 +43,18 @@ class ProfileInfo extends Component {
       fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GMAPS_API_KEY}`)
       .then((response)=>response.json())
       .then((responseJSON)=> {
-        this.props.update(responseJSON)
+        this.location = responseJSON
         this.setState({loading: false});
       }).catch((err)=>{console.log(err)})
     })
   };
 
-  getValue = () => {
-    console.log(this._form)
-    return {
-      personalInfo: this._form.getValue(),
-    }
+  handleNext = () => {
+    this.props.updateFormData({
+      userInfo: this._form.getValue(),
+      location: this.location
+    })
+
   }
   
   render() {
@@ -73,7 +79,7 @@ class ProfileInfo extends Component {
               fetchDetails={true}
               renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                this.props.update(data)
+                this.location = data
               }}
               getDefaultValue={() => {return "here"}}
               query={{
@@ -110,6 +116,7 @@ class ProfileInfo extends Component {
               debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
             />
         </View>
+        <Button title='next' onPress= {this.handleNext}></Button>
       </View>
     )
   }
@@ -128,8 +135,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    update: (newLocation) => {
-      dispatch(updateLocation(newLocation))
+    updateFormData: (formData) => {
+      dispatch(updateFormData(formData))
     }
   }
 }

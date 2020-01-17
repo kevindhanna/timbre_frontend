@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import {
   Image,
   Platform,
@@ -13,92 +13,37 @@ import {
   ActivityIndicator,
   Button
 } from 'react-native';
-import MultiSelect from '../components/MultiSelect';
+import InstrumentMultiSelect from '../components/InstrumentMultiSelect';
 import InstrumentRating from '../components/InstrumentRating';
 import FormSummary from '../components/FormSummary';
 import ProfileInfo from '../components/ProfileInfo';
-import { updateFormData } from '../actions/updateFormData'
 const BACKEND_IP = require('../.env').BACKEND_IP
 
 
 class SetUpProfileScreen extends Component {
   constructor(props){
     super(props)
-  }
-
-  handleNext = () => {
-    let value = this._form.getValue()
-    console.log(value)
-    this.props.update(value)
-    console.log(this.props.formData)
-  }
-
-  handleSubmit = async () => {
-    const userToken = await AsyncStorage.getItem('userToken')
-    const userId = await AsyncStorage.getItem('userId')
-    let value = {
-      location: {friendlyName: this.props.formData.locationData.description},
-      firstName: this.props.formData.personalInfo.firstName,
-      lastName: this.props.formData.personalInfo.lastName,
-      bio: this.props.formData.personalInfo.bio,
-      instruments: this.props.formData.instruments
-    }
-    let data = {
-      method: 'PATCH',
-      body: JSON.stringify(value),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization' : userToken
-      }
-    }
-    return fetch('http://' + BACKEND_IP + ':3000/users/'+ userId, data)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.props.navigation.navigate('Home')
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this._form = React.createRef()
   }
 
   formType = () => {
     switch (this.props.page){
       case 0:
-      return(
-        <View>
-          <ProfileInfo ref={c => this._form = c} />
-          <Button title='next' onPress= {this.handleNext}></Button>
-        </View>
-    )
+        return(
+          <ProfileInfo/>
+        )
       case 1:
         return (
-          <View><Text style={styles.heading}>What do you play?</Text>
-          <View style={styles.multiSelect}>
-            <MultiSelect ref={c => this._form = c}/>
-            <Button title='next' onPress= {this.handleNext}></Button>
-          </View>
-          </View>
-      )
+          <InstrumentMultiSelect />
+        )
       case 2:
-          return(
-            <View>
-              <Text style={styles.heading}>How do you rate your playing?</Text>
-              <InstrumentRating
-                ref = {c => this._form = c}
-                instruments={this.props.formData.instruments}
-                setInstruments={this.setState}/>
-              <Button title='next' onPress= {this.handleNext}></Button>
-            </View>
-          )
+        return(
+          <InstrumentRating/>
+        )
       case 3:
-      return(
-        <View>
-          <Text style={styles.heading}>Does this look right?</Text>
-          <FormSummary formData = {this.props.formData}/>
-          <Button title='Finish' onPress= {this.handleSubmit}></Button>
-        </View>
-      )
+        return(
+          <FormSummary/> 
+        )
     }
   }
   render() {
@@ -120,11 +65,6 @@ const styles = StyleSheet.create({
   button1: {
     paddingTop: 200
   },
-  heading: {
-    textAlign: 'center',
-    fontSize: 30,
-    marginBottom: 30
-  },
   text: {
     fontSize: 100
   },
@@ -133,27 +73,12 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#ffffff'
   },
-  multiSelect: {
-    height: '50%',
-    width: '100%',
-    marginTop: 40,
-    justifyContent: 'center'
-  }
 })
 
 const mapStateToProps = state => {
   return {
-    page: state.profileForm.page,
-    formData: state.profileForm.formData
+    page: state.profileForm.page
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    update: (newFormData) => {
-      dispatch(updateFormData(newFormData))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SetUpProfileScreen)
+export default connect(mapStateToProps, null)(SetUpProfileScreen)

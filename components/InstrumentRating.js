@@ -1,8 +1,8 @@
-import React, { Component, useLayoutEffect } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import React from 'react';
+import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
 import { Rating } from 'react-native-elements'
-// import { FlatList } from 'react-native-gesture-handler';
+import { updateFormData } from '../actions/updateFormData'
+import { connect} from 'react-redux'
 
 const GUITAR_IMAGE = require('../assets/images/guitar.png')
 const DRUMS_IMAGE = require('../assets/images/drums.png')
@@ -31,7 +31,7 @@ const list = [
   },
 ]
 
-export default class InstrumentRating extends React.Component {
+class InstrumentRating extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -39,12 +39,12 @@ export default class InstrumentRating extends React.Component {
     }
   }
 
-  getValue = () => {
+  handleNext = () => {
     const instrumentObject = this.state.instrumentValues.instruments
     const result = Object.keys(instrumentObject).map(function(key) {
       return {instrument: key, rating: instrumentObject[key]};
     });
-    return {instruments: result}
+    return this.props.updateFormData({instruments: result})
   }
 
   setRating = (instrument, rating) => {
@@ -74,12 +74,16 @@ export default class InstrumentRating extends React.Component {
 
   render () {
     return (
+      <View>
+        <Text style={styles.heading}>How do you rate your playing?</Text>
       <View style={styles.instrument_rating_container}>
         <FlatList
           keyExtractor={item=>item}
           data={this.props.instruments}
           renderItem={this.renderRow}
         />
+      </View>
+      <Button title='next' onPress= {this.handleNext}></Button>
       </View>
 
     )
@@ -99,8 +103,29 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 50,
   },
+  heading: {
+    textAlign: 'center',
+    fontSize: 30,
+    marginBottom: 30
+  },
   instrument_rating_container: {
     paddingTop: 100,
     marginBottom: 50
   }
 })
+
+const mapStateToProps = state => {
+  return {
+    instruments: state.profileForm.formData.instruments
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateFormData: (formData) => {
+      dispatch(updateFormData(formData))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InstrumentRating)
