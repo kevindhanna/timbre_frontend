@@ -13,8 +13,8 @@ import {
   Button
 } from 'react-native';
 import t from 'tcomb-form-native'
-import BACKEND_IP from '../.env'
 
+const BACKEND_IP = require('../.env').BACKEND_IP
 const Form = t.form.Form
 
 const User = t.struct({
@@ -51,7 +51,7 @@ export default class SignUpScreen extends Component {
     this.setState({isLoading: true})
     console.log('data', data)
 
-    return fetch("http://192.168.48.223:3000/users", data)
+    return fetch("http://" + BACKEND_IP + ":3000/users", data)
       .then((response) => response.json())
       .then(async (responseJson) => {
         console.log(responseJson)

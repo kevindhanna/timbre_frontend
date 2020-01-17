@@ -18,7 +18,7 @@ import InstrumentRating from '../components/InstrumentRating';
 import FormSummary from '../components/FormSummary';
 import ProfileInfo from '../components/ProfileInfo';
 import { updateFormData } from '../actions/updateFormData'
-import BACKEND_IP from '../.env'
+const BACKEND_IP = require('../.env').BACKEND_IP
 
 
 class SetUpProfileScreen extends Component {
@@ -52,7 +52,7 @@ class SetUpProfileScreen extends Component {
         'Authorization' : userToken
       }
     }
-    return fetch('http://192.168.48.223:3000/users/'+ userId, data)
+    return fetch('http://' + BACKEND_IP + ':3000/users/'+ userId, data)
       .then((response) => response.json())
       .then((responseJson) => {
         this.props.navigation.navigate('Home')
