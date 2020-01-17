@@ -29,6 +29,7 @@ class ProfileInfo extends Component {
       loading: true,
       errorMessage: null
     }
+    this.location = {}
   }
   async UNSAFE_componentWillMount() {
     await this._getLocationAsync()
@@ -40,10 +41,11 @@ class ProfileInfo extends Component {
     }
     Location.getCurrentPositionAsync({})
     .then((location)=>{
+      this.location.coords = [location.coords.latitude, location.coords.longitude]
       fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GMAPS_API_KEY}`)
       .then((response)=>response.json())
       .then((responseJSON)=> {
-        this.location = responseJSON
+        this.location.data = responseJSON
         this.setState({loading: false});
       }).catch((err)=>{console.log(err)})
     })
@@ -52,7 +54,10 @@ class ProfileInfo extends Component {
   handleNext = () => {
     this.props.updateFormData({
       userInfo: this._form.getValue(),
-      location: this.location
+      location: {
+        friendlyName: this.location.data.description,
+        coords: this.location.coords
+      }
     })
 
   }
@@ -79,7 +84,7 @@ class ProfileInfo extends Component {
               fetchDetails={true}
               renderDescription={row => row.description} // custom description render
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                this.location = data
+                this.location.data = data
               }}
               getDefaultValue={() => {return "here"}}
               query={{

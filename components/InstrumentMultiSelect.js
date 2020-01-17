@@ -1,4 +1,4 @@
-import React, { Component, useLayoutEffect } from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 import { updateFormData } from '../actions/updateFormData'

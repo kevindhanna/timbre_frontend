@@ -1,23 +1,13 @@
-import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux';
 import React, { Component, createRef } from 'react';
 import {
-  Image,
-  Platform,
-  ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
-  AsyncStorage,
-  ActivityIndicator,
-  Button
 } from 'react-native';
 import InstrumentMultiSelect from '../components/InstrumentMultiSelect';
 import InstrumentRating from '../components/InstrumentRating';
 import FormSummary from '../components/FormSummary';
 import ProfileInfo from '../components/ProfileInfo';
-const BACKEND_IP = require('../.env').BACKEND_IP
 
 
 class SetUpProfileScreen extends Component {
@@ -42,7 +32,7 @@ class SetUpProfileScreen extends Component {
         )
       case 3:
         return(
-          <FormSummary/> 
+          <FormSummary navigation={this.props.navigation}/> 
         )
     }
   }
@@ -61,12 +51,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  button1: {
-    paddingTop: 200
-  },
-  text: {
-    fontSize: 100
   },
   formContainer: {
     marginTop: 10,

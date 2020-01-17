@@ -1,9 +1,14 @@
 import React, { Component} from 'react';
-import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { 
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Button,
+  AsyncStorage
+} from 'react-native';
 import { connect} from 'react-redux'
-import { updateFormData } from '../actions/updateFormData'
-
+const BACKEND_IP = require('../.env').BACKEND_IP
 
 const profMap = {
   [0]: 'Novice',
@@ -18,9 +23,13 @@ class FormSummary extends Component {
 
   renderProfile = () => {
     const formData = this.props.formData
-    console.log(formData)
+    const userInfo = formData.userInfo
     return(
-      <Text>{formData.userInfo}</Text>
+      <View>
+        <Text>Name: {userInfo.firstName} {userInfo.lastName}</Text>
+        <Text>Bio: {userInfo.bio}</Text>
+        <Text>Location: {formData.location.friendlyName}</Text>
+      </View>
     )
   }
 
@@ -44,10 +53,10 @@ class FormSummary extends Component {
     const userToken = await AsyncStorage.getItem('userToken')
     const userId = await AsyncStorage.getItem('userId')
     let value = {
-      location: {friendlyName: this.props.formData.locationData.description},
-      firstName: this.props.formData.personalInfo.firstName,
-      lastName: this.props.formData.personalInfo.lastName,
-      bio: this.props.formData.personalInfo.bio,
+      location: this.props.formData.location,
+      firstName: this.props.formData.userInfo.firstName,
+      lastName: this.props.formData.userInfo.lastName,
+      bio: this.props.formData.userInfo.bio,
       instruments: this.props.formData.instruments
     }
     let data = {
