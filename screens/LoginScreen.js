@@ -1,5 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
-import React, { Component } from 'react';
+import React, {
+  Component
+} from 'react';
 import {
   Image,
   Platform,
@@ -19,21 +21,24 @@ const Form = t.form.Form
 
 const User = t.struct({
   email: t.String,
-  username: t.String,
   password: t.String,
 })
 
 
-export default class SignUpScreen extends Component {
+export default class LoginScreen extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
     }
   }
 
-  handleSignup = () => {
+  navigateToSignup = () => {
+    this.props.navigation.navigate('SignUp')
+  }
+
+  handleLogin = () => {
     const value = this._form.getValue()
     console.log("value", value)
     let data = {
@@ -41,17 +46,16 @@ export default class SignUpScreen extends Component {
       body: JSON.stringify({
         email: value.email,
         password: value.password,
-        username: value.username
       }),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       }
     }
-    this.setState({isLoading: true})
-    console.log('ip', "http://" + BACKEND_IP + ":3000/users")
-
-    return fetch("http://" + BACKEND_IP + ":3000/users", data)
+    this.setState({
+      isLoading: true
+    })
+    return fetch("http://" + BACKEND_IP + ":3000/users/login", data)
       .then((response) => response.json())
       .then(async (responseJson) => {
         console.log(responseJson)
@@ -60,77 +64,61 @@ export default class SignUpScreen extends Component {
         this.setState({
           isLoading: false,
         });
-        this.props.navigation.navigate('SetUpProfile')
+        this.props.navigation.navigate('Home')
       })
       .catch((error) => {
         console.error(error);
       });
   }
 
-  loginUser =  async() => {
-    await AsyncStorage.setItem('userToken', 'fakeToken')
-    this.props.navigation.navigate('SetUpProfile')
-  }
-
-  navigateToLogin = () => {
-    this.props.navigation.navigate('Login')
+  renderLoginButton = () => {
+    if (this.state.isLoading) {
+      return (
+        <View style = { styles.spinnerStyle}>
+        <ActivityIndicator size = {'large'}/>
+        </View>
+      )
+    }
+    return (
+      <Button title = 'Login' onPress = {this.handleLogin}/>
+    )
   }
 
   renderSignUpButton = () => {
     if (this.state.isLoading) {
       return (
-        <View style={styles.spinnerStyle} ><ActivityIndicator size={'large'}/></View>
+        <View style = { styles.spinnerStyle }>
+        < ActivityIndicator size = { 'large'}/>
+        </View >
       )
     }
     return (
-      <Button title='Sign Up' onPress={this.handleSignup}/>
-    )
-  }
-
-  renderLoginButton = () => {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.spinnerStyle} ><ActivityIndicator size={'large'}/></View>
-      )
-    }
-    return (
-      <Button title='Login' onPress={this.navigateToLogin}/>
+      <Button title = 'Sign Up' onPress = {this.navigateToSignup}/>
     )
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
-          <View style={styles.iconContainer}>
-            <Text style={styles.name}>T I M B R E</Text>
-            <Image
-              source={
-                require('../assets/images/timbre_logo.png')
-              }
-              style={styles.mainImage}
-            />
-          </View>
-
-          <View style={styles.formContainer}>
-            <Text style={styles.formLabel}>Sign Up!</Text>
-            <Form
-              ref = {c => this._form = c}
-              type={User}/>
-            {this.renderSignUpButton()}
-            {this.renderLoginButton()}
-            <Button title='Skip' onPress= {this.loginUser}></Button>
-          </View>
-
-        </ScrollView>
+      <View style = { styles.container}>
+        <ScrollView style = {styles.container} contentContainerStyle = { styles.contentContainer }>
+        <View style = {styles.iconContainer}>
+        <Text style = {styles.name} > T I M B R E </Text>
+        <Image source = {require('../assets/images/timbre_logo.png')} style = {styles.mainImage}/>
       </View>
+
+      <View style = {styles.formContainer}>
+        <Text style = {styles.formLabel}>Login!</Text>
+        <Form ref = {c => this._form = c} type = {User}/>
+        {this.renderLoginButton()}
+        {this.renderSignUpButton()}
+      </View>
+      </ScrollView>
+    </View >
     );
   }
 }
 
-SignUpScreen.navigationOptions = {
+LoginScreen.navigationOptions = {
   header: null,
 };
 
@@ -188,7 +176,10 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
+        shadowOffset: {
+          width: 0,
+          height: -3
+        },
         shadowOpacity: 0.1,
         shadowRadius: 3,
       },
