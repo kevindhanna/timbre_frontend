@@ -40,7 +40,6 @@ export default class LoginScreen extends Component {
 
   handleLogin = () => {
     const value = this._form.getValue()
-    console.log("value", value)
     let data = {
       method: 'POST',
       body: JSON.stringify({
@@ -58,9 +57,8 @@ export default class LoginScreen extends Component {
     return fetch("http://" + BACKEND_IP + ":3000/users/login", data)
       .then((response) => response.json())
       .then(async (responseJson) => {
-        console.log(responseJson)
-         await AsyncStorage.setItem('userToken', responseJson.token);
-         await AsyncStorage.setItem('userId', responseJson.userId)
+        await AsyncStorage.setItem('userToken', responseJson.user.token)
+        await AsyncStorage.setItem('userId', responseJson.user.userId)
         this.setState({
           isLoading: false,
         });
