@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { 
+import {
   View,
   Text,
   FlatList,
@@ -87,7 +87,6 @@ class FormSummary extends Component {
   }
 
   render() {
-    console.log(this.props)
     return(
       <View>
         <Text style={styles.heading}>Does this look right?</Text>

@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import TabBarIcon from '../components/TabBarIcon';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import SetupBandScreen from '../screens/SetupBandScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -18,6 +19,7 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
+    SetUpBand: SetupBandScreen
   },
   config
 );

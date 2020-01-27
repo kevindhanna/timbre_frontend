@@ -35,7 +35,6 @@ export default class SignUpScreen extends Component {
 
   handleSignup = () => {
     const value = this._form.getValue()
-    console.log("value", value)
     let data = {
       method: 'POST',
       body: JSON.stringify({
@@ -49,8 +48,6 @@ export default class SignUpScreen extends Component {
       }
     }
     this.setState({isLoading: true})
-    console.log('ip', "http://" + BACKEND_IP + ":3000/users")
-
     return fetch("http://" + BACKEND_IP + ":3000/users", data)
       .then((response) => response.json())
       .then(async (responseJson) => {

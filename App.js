@@ -42,6 +42,8 @@ async function loadResourcesAsync() {
     {'Work Sans': require('./assets/fonts/WorkSans-Regular.ttf')},
     {'Nunito Sans': require('./assets/fonts/NunitoSans-Regular.ttf')},
     {'Cute Font': require('./assets/fonts/CuteFont-Regular.ttf')},
+    {'Nunito Black': require('./assets/fonts/NunitoSans-Black.ttf')},
+    {'Nunito Bold': require('./assets/fonts/NunitoSans-Bold.ttf')},
     {...Ionicons.font}
   ]
 
