@@ -45,7 +45,8 @@ class ProfileInfo extends Component {
       fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GMAPS_API_KEY}`)
       .then((response)=>response.json())
       .then((responseJSON)=> {
-        this.location.data = responseJSON
+        this.location.data = { description: responseJSON.plus_code.compound_code.split(' ').slice(1).join(' ') }
+        console.log(this.location)
         this.setState({loading: false});
       }).catch((err)=>{console.log(err)})
     })
@@ -63,7 +64,7 @@ class ProfileInfo extends Component {
   }
   
   render() {
-    return this.loading
+    return this.state.loading
     ? (
       <ActivityIndicator />
     )
@@ -86,7 +87,7 @@ class ProfileInfo extends Component {
               onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                 this.location.data = data
               }}
-              getDefaultValue={() => {return "here"}}
+              getDefaultValue={() => {return this.location.data.description }}
               query={{
                 // available options: https://developers.google.com/places/web-service/autocomplete
                 key: GOOGLE_PLACES,

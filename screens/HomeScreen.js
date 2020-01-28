@@ -25,13 +25,8 @@ export default function HomeScreen(props) {
   }
 
   const handleSignOut = async () => {
-    const keys = await AsyncStorage.getAllKeys();
-    const result = await AsyncStorage.multiGet(keys)
-    if (keys.length > 0) {
-      await AsyncStorage.clear()
-      props.navigation.navigate('Auth')
-    }
-
+    await AsyncStorage.clear()
+    props.navigation.navigate('Auth')
   }
 
     return (
