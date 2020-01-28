@@ -175,7 +175,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginRight: 20,
     height: 50,
-    paddingTop: 5
+    paddingTop: 5,
+    fontFamily: 'Nunito Sans'
   },
   heading: {
     textAlign: 'center',
