@@ -21,7 +21,7 @@ export default function HomeScreen(props) {
   }
 
   const navigateToBands =  () => {
-
+    props.navigation.navigate('Swiping')
   }
 
   const handleSignOut = async () => {

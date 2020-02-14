@@ -4,10 +4,10 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  Button,
   AsyncStorage
 } from 'react-native';
 import { connect} from 'react-redux'
+import { Button } from 'react-native-elements'
 const BACKEND_IP = require('../.env').BACKEND_IP
 
 const profMap = {
@@ -25,7 +25,7 @@ class FormSummary extends Component {
     const formData = this.props.formData
     const userInfo = formData.userInfo
     return(
-      <View>
+      <View style={styles.profileForm}>
         <Text>Name: {userInfo.firstName} {userInfo.lastName}</Text>
         <Text>Bio: {userInfo.bio}</Text>
         <Text>Location: {formData.location.friendlyName}</Text>
@@ -40,7 +40,7 @@ class FormSummary extends Component {
   renderInstruments = () => {
     const instruments = this.props.formData.instruments
     return(
-      <View>
+      <View style={styles.instrumentForm}>
         <FlatList
             keyExtractor={ item => item.instrument }
             data={instruments}
@@ -80,19 +80,24 @@ class FormSummary extends Component {
 
   renderRow = (listItem) => {
     return(
-      <View>
         <Text>{listItem.item.instrument + ':' + this.proficencySummary(listItem.item.rating)}</Text>
-      </View>
     )
   }
 
   render() {
     return(
-      <View>
+      <View style={styles.container}>
         <Text style={styles.heading}>Does this look right?</Text>
         {this.renderProfile()}
         {this.renderInstruments()}
-        <Button title='Finish' onPress= {this.handleSubmit}></Button>
+          <Button
+            onPress={this.handleSubmit}
+            raised
+            type='outline'
+            title='Finish'
+            titleStyle={{fontFamily: 'Nunito Bold'}}
+            buttonStyle={{padding: 10, borderRadius: 10, borderWidth: 1.2}}
+            containerStyle={{width: 200, marginBottom: 20, marginTop: 20}}/>
       </View>
     )
   }
@@ -102,8 +107,21 @@ const styles = StyleSheet.create({
   heading: {
     textAlign: 'center',
     fontSize: 30,
-    marginBottom: 30
+    marginBottom: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
+  container: {
+    height: 400
+  },
+  profileForm: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  instrumentForm: {
+    alignItems: "center",
+    flexDirection: "row"
+  }
 })
 
 const mapStateToProps = state => {
