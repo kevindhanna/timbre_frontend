@@ -46,7 +46,6 @@ class ProfileInfo extends Component {
       .then((response)=>response.json())
       .then((responseJSON)=> {
         this.location.data = { description: responseJSON.plus_code.compound_code.split(' ').slice(1).join(' ') }
-        console.log(this.location)
         this.setState({loading: false});
       }).catch((err)=>{console.log(err)})
     })

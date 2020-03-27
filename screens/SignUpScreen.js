@@ -51,7 +51,6 @@ export default class SignUpScreen extends Component {
     return fetch("http://" + BACKEND_IP + ":3000/users", data)
       .then((response) => response.json())
       .then(async (responseJson) => {
-        console.log(responseJson)
          await AsyncStorage.setItem('userToken', responseJson.token);
          await AsyncStorage.setItem('userId', responseJson.userId)
         this.setState({

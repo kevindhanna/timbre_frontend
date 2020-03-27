@@ -27,16 +27,20 @@ const bandInstrumentFrom = t.struct({
   drums: t.Number,
   piano: t.Number
 })
-const instrumentFormValues = {
-  guitar: 0,
-  bass: 0,
-  vocals: 0,
-  drums: 0,
-  piano: 0
-}
-
 
 export default class SetupBandScreen extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+        instrumentFormValues: {
+          guitar: 0,
+          bass: 0,
+          vocals: 0,
+          drums: 0,
+          piano: 0
+        } 
+      }
+  }
   handleSubmit = async () => {
     const userToken = await AsyncStorage.getItem('userToken')
     const info = this._infoForm.getValue()
@@ -64,17 +68,32 @@ export default class SetupBandScreen extends Component {
       });
   }
 
+  handleMinus = (field) => {
+    let newState = this.state.instrumentFormValues
+    newState[field] -= 1
+    this.setState(newState)
+  }
+
+  handlePlus = (field) => {
+    let newState = this.state.instrumentFormValues
+    newState[field] += 1
+    this.setState(newState)
+  }
+
   render() {
     let minusButtons = []
     let plusButtons = []
+    let instruments = Object.keys(this.state.instrumentFormValues)
     for (let step =0; step < 5; step ++){
       minusButtons.push(
         <Button
+          key={step*10}
           icon={
             <Icon
               name="minus"
               size={15}
               color="black"
+              onPress={()=>{this.handleMinus(instruments[step])}}
               />
           }
           buttonStyle={{borderRadius: 10, backgroundColor: '#EFC84A'}}
@@ -82,11 +101,13 @@ export default class SetupBandScreen extends Component {
       )
       plusButtons.push(
         <Button
+          key={step*100}
           icon={
             <Icon
               name="plus"
               size={15}
               color="black"
+              onPress={()=>{this.handlePlus(instruments[step])}}
               />
           }
           buttonStyle={{borderRadius: 10, backgroundColor: '#EFC84A'}}
@@ -129,7 +150,7 @@ export default class SetupBandScreen extends Component {
                   ref={c => this._instrumentForm = c}
                   type={bandInstrumentFrom}
                   options={{auto: "none"}}
-                  value={instrumentFormValues}/>
+                  value={this.state.instrumentFormValues}/>
                   <View>
                     {plusButtons}
                   </View>

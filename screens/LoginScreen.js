@@ -57,7 +57,6 @@ export default class LoginScreen extends Component {
     return fetch("http://" + BACKEND_IP + ":3000/users/login", data)
       .then((response) => response.json())
       .then(async (responseJson) => {
-        console.log(responseJson)
         await AsyncStorage.setItem('userToken', responseJson.user.token)
         await AsyncStorage.setItem('userId', responseJson.user.userId)
         this.setState({
