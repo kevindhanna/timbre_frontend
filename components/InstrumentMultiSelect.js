@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   multiSelect: {
     height: '50%',
     width: '100%',
-    marginTop: 40,
+    marginVertical: 40,
     justifyContent: 'center'
   },
   heading: {
