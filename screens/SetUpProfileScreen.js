@@ -3,6 +3,7 @@ import React, { Component, createRef } from 'react';
 import {
   StyleSheet,
   View,
+  ScrollView
 } from 'react-native';
 import InstrumentMultiSelect from '../components/InstrumentMultiSelect';
 import InstrumentRating from '../components/InstrumentRating';
@@ -15,6 +16,11 @@ class SetUpProfileScreen extends Component {
     super(props)
     this._form = React.createRef()
   }
+
+  static navigationOptions = {
+    //To hide the ActionBar/NavigationBar
+    header: null,
+};
 
   formType = () => {
     switch (this.props.page){
@@ -32,17 +38,17 @@ class SetUpProfileScreen extends Component {
         )
       case 3:
         return(
-          <FormSummary navigation={this.props.navigation}/> 
+          <FormSummary navigation={this.props.navigation}/>
         )
     }
   }
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.formContainer}>
           {this.formType()}
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -53,8 +59,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   formContainer: {
-    marginTop: 10,
-    padding: 20,
     backgroundColor: '#ffffff'
   },
 })

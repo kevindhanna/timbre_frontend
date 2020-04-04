@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import t from 'tcomb-form-native'
 
-const BACKEND_IP = require('../.env').BACKEND_IP
+const BACKEND_IP = require('../.env.js').BACKEND_IP
 const Form = t.form.Form
 
 const User = t.struct({
@@ -73,22 +73,12 @@ export default class SignUpScreen extends Component {
   }
 
   renderSignUpButton = () => {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.spinnerStyle} ><ActivityIndicator size={'large'}/></View>
-      )
-    }
     return (
       <Button title='Sign Up' onPress={this.handleSignup}/>
     )
   }
 
   renderLoginButton = () => {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.spinnerStyle} ><ActivityIndicator size={'large'}/></View>
-      )
-    }
     return (
       <Button title='Login' onPress={this.navigateToLogin}/>
     )
@@ -115,8 +105,14 @@ export default class SignUpScreen extends Component {
             <Form
               ref = {c => this._form = c}
               type={User}/>
-            {this.renderSignUpButton()}
-            {this.renderLoginButton()}
+            {this.state.isLoading
+              ? <View style={styles.spinnerStyle} ><ActivityIndicator size={'large'}/></View>
+              : <View>
+                  {this.renderSignUpButton()}
+                  {this.renderLoginButton()}
+              </View>
+            }
+
             <Button title='Skip' onPress= {this.loginUser}></Button>
           </View>
 

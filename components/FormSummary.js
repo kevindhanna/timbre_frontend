@@ -2,13 +2,15 @@ import React, { Component} from 'react';
 import {
   View,
   Text,
+  Image,
   FlatList,
   StyleSheet,
   AsyncStorage
 } from 'react-native';
 import { connect} from 'react-redux'
 import { Button } from 'react-native-elements'
-const BACKEND_IP = require('../.env').BACKEND_IP
+import Icon from 'react-native-vector-icons/FontAwesome5'
+const BACKEND_IP = require('../.env.js').BACKEND_IP
 
 const profMap = {
   [0]: 'Novice',
@@ -21,20 +23,21 @@ const profMap = {
 
 class FormSummary extends Component {
 
-  renderProfile = () => {
-    const formData = this.props.formData
-    const userInfo = formData.userInfo
-    return(
-      <View style={styles.profileForm}>
-        <Text>Name: {userInfo.firstName} {userInfo.lastName}</Text>
-        <Text>Bio: {userInfo.bio}</Text>
-        <Text>Location: {formData.location.friendlyName}</Text>
-      </View>
-    )
-  }
-
   proficencySummary = (proficency) => {
     return profMap[Math.floor(proficency)]
+  }
+
+  renderRow = (listItem) => {
+    return(
+      <View style={styles.row} key={listItem.item.instrument}>
+        <View style={styles.rowContent}>
+          <Text style={styles.instrumentTitle}>
+            {listItem.item.instrument.charAt(0).toUpperCase() + listItem.item.instrument.slice(1) + ": "}
+          </Text>
+          <Text style={styles.insturmentProf}>{this.proficencySummary(listItem.item.rating)}</Text>
+        </View>
+      </View>
+    )
   }
 
   renderInstruments = () => {
@@ -63,13 +66,13 @@ class FormSummary extends Component {
       method: 'PATCH',
       body: JSON.stringify(value),
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization' : userToken
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization" : userToken
       }
     }
+
     return fetch('http://' + BACKEND_IP + ':3000/users/'+ userId, data)
-      .then((response) => response.json())
       .then((responseJson) => {
         this.props.navigation.navigate('Home')
       })
@@ -78,49 +81,160 @@ class FormSummary extends Component {
       });
   }
 
-  renderRow = (listItem) => {
-    return(
-        <Text>{listItem.item.instrument + ':' + this.proficencySummary(listItem.item.rating)}</Text>
-    )
-  }
-
   render() {
+    const formData = this.props.formData
+    const userInfo = formData.userInfo
+
     return(
       <View style={styles.container}>
-        <Text style={styles.heading}>Does this look right?</Text>
-        {this.renderProfile()}
-        {this.renderInstruments()}
-          <Button
-            onPress={this.handleSubmit}
-            raised
-            type='outline'
-            title='Finish'
-            titleStyle={{fontFamily: 'Nunito Bold'}}
-            buttonStyle={{padding: 10, borderRadius: 10, borderWidth: 1.2}}
-            containerStyle={{width: 200, marginBottom: 20, marginTop: 20}}/>
+        <View style={styles.header}></View>
+        <Image style={styles.avatar} source={
+          require('../assets/images/disc-jockey.png')
+        }/>
+        <View style={styles.body}>
+          <View style={styles.bodyContent}>
+            <Text style={styles.heading}>{userInfo.firstName} {userInfo.lastName}</Text>
+            <View style={styles.locationContainer}>
+              <Icon
+                name="map-marker-alt"
+                size={16}
+                color="#4a93ef"
+                style={styles.pin}
+                />
+              <Text style={[styles.location, styles.text]}>
+                {formData.location.friendlyName}
+              </Text>
+            </View>
+            <Text style={[styles.bio, styles.text]}>
+              {userInfo.bio}
+            </Text>
+          </View>
+          <View style = {styles.lineStyle} />
+          <View style={styles.formInfoContainer}>
+            <Text style={styles.instrumentHeading}>Instruments</Text>
+            {this.renderInstruments()}
+          </View>
+          <View style={styles.footer}>
+            <Text style={styles.heading}>Does this look right?</Text>
+            <Button
+              onPress={this.handleSubmit}
+              raised
+              type='outline'
+              title='Finish'
+              titleStyle={{fontFamily: 'Nunito Bold'}}
+              buttonStyle={{padding: 10, borderRadius: 10, borderWidth: 1.2}}
+              containerStyle={{width: 200, marginBottom: 20, marginTop: 20, alignSelf:'center'}}
+            />
+          </View>
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  header:{
+    backgroundColor: "#4a93ef",
+    height:200,
+  },
   heading: {
     textAlign: 'center',
-    fontSize: 30,
-    marginBottom: 30,
-    justifyContent: "center",
-    alignItems: "center",
+    fontSize: 28,
+    color: "#696969",
+    fontFamily: 'Nunito Bold',
+    fontWeight: "600"
   },
-  container: {
-    height: 400
+  text: {
+    fontFamily: 'Nunito Sans'
+  },
+  location: {
+    fontSize:16,
+    color: "#4a93ef",
+    alignSelf: 'center',
+  },
+  pin:{
+    marginRight: 5,
+  },
+  bio:{
+    fontSize:16,
+    color: "#696969",
+    marginTop:10,
+    textAlign: 'center'
+  },
+  instrumentHeading: {
+    fontFamily: 'Nunito Bold',
+    fontSize: 18,
+    fontWeight: "600",
+    alignSelf: 'flex-start',
+    marginBottom: 10
+  },
+  avatar: {
+    width: 150,
+    height: 150,
+    borderRadius: 83,
+    borderWidth: 4,
+    borderColor: "white",
+    marginBottom:10,
+    alignSelf:'center',
+    position: 'absolute',
+    marginTop:110,
+    backgroundColor: '#EFC84A',
+  },
+  body:{
+    marginTop:80,
+    height: 400,
+  },
+  bodyContent: {
+    flex: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 30,
+  },
+  locationContainer: {
+    flex: 0,
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  lineStyle: {
+    borderWidth: 0.5,
+    borderColor:'black',
+    margin:15,
+  },
+  formInfoContainer: {
+    flex: 0,
+    alignItems: 'center',
+    marginHorizontal: 15,
   },
   profileForm: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    borderWidth: 2,
+    borderColor: 'blue',
+    fontFamily: 'Cute Font'
   },
   instrumentForm: {
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
+    marginLeft: 10,
+  },
+  row: {
+    marginBottom: 10,
+    flex: 1,
+    alignItems: 'flex-start'
+  },
+  rowContent: {
+    flexDirection: 'row',
+  },
+  instrumentTitle: {
+    fontFamily: 'Nunito Bold',
+    fontSize: 16,
+    alignSelf: 'baseline',
+  },
+  insturmentProf: {
+    alignSelf: 'center',
+    fontSize:16
+  },
+  footer: {
+    marginVertical: 40
   }
 })
 
@@ -129,5 +243,6 @@ const mapStateToProps = state => {
     formData: state.profileForm.formData,
   }
 }
+
 
 export default connect(mapStateToProps, null)(FormSummary)
