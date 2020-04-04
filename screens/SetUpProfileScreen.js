@@ -58,15 +58,11 @@ class SetUpProfileScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    borderWidth: 2,
-    borderColor: 'red',
     paddingBottom: 10,
   },
   formContainer: {
     backgroundColor: '#ffffff',
     paddingBottom: 100,
-    borderWidth: 2,
-    borderColor: 'green',
     height: 1000
   },
 })
