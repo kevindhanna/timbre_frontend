@@ -7544,8 +7544,8 @@ through@^2.3.6:
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
 
 timbre_sdk@DefMethodSoftware/timbre_sdk:
-  version "1.0.0"
-  resolved "https://codeload.github.com/DefMethodSoftware/timbre_sdk/tar.gz/c52daa9f419a57bd5214c1d9e9bfccb291bdfd57"
+  version "1.0.1"
+  resolved "https://codeload.github.com/DefMethodSoftware/timbre_sdk/tar.gz/3432fde51697dc5bbe342edbedc03ee24d647630"
   dependencies:
     "@babel/core" "^7.9.0"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
