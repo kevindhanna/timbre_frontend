@@ -32,9 +32,6 @@ class InstrumentMultiSelect extends Component {
   }
 
   handleNext = () => {
-    return {}
-  }
-  handleNext = () => {
     this.props.updateFormData({
       instruments: this.state.selectedItems
     })
@@ -47,7 +44,7 @@ class InstrumentMultiSelect extends Component {
   render = () => {
     const {selectedItems} = this.state
     return (
-      <View>
+      <View style={styles.container}>
         <Text style={styles.heading}>What do you play?</Text>
         <View style={styles.multiSelect}>
           <MultiSelect
@@ -78,6 +75,10 @@ class InstrumentMultiSelect extends Component {
 }
 
 const styles = StyleSheet.create({
+  container:{
+    marginHorizontal:20,
+    marginTop: 100
+  },
   multiSelect: {
     height: '50%',
     width: '100%',

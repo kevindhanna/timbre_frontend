@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { 
+import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  Button 
+  Button
 } from 'react-native';
 import t from 'tcomb-form-native'
 import * as Location from 'expo-location';
@@ -61,14 +61,14 @@ class ProfileInfo extends Component {
     })
 
   }
-  
+
   render() {
     return this.state.loading
     ? (
       <ActivityIndicator />
     )
     : (
-      <View>
+      <View style={styles.container}>
         <Text style={styles.heading}>Lets set up your profile</Text>
             <Form
               ref = {c => this._form = c}
@@ -127,6 +127,10 @@ class ProfileInfo extends Component {
   }
 }
 const styles = StyleSheet.create({
+  container:{
+    marginHorizontal:20,
+    marginTop: 100
+  },
   heading: {
     textAlign: 'center',
     fontSize: 30,

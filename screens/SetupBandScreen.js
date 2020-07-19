@@ -11,7 +11,7 @@ import { Button, FormLabel } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import t from 'tcomb-form-native'
 
-const BACKEND_IP = require('../.env').BACKEND_IP
+const BACKEND_IP = require('../.env.js').BACKEND_IP
 
 const Form = t.form.Form
 
@@ -42,7 +42,7 @@ export default class SetupBandScreen extends Component {
           vocals: 0,
           drums: 0,
           piano: 0
-        } 
+        }
       }
   }
   handleSubmit = async () => {
