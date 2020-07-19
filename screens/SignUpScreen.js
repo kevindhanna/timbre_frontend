@@ -13,6 +13,7 @@ import {
   Button
 } from 'react-native';
 import t from 'tcomb-form-native'
+import api from '../api'
 
 const BACKEND_IP = require('../.env.js').BACKEND_IP
 const Form = t.form.Form
@@ -35,32 +36,15 @@ export default class SignUpScreen extends Component {
 
   handleSignup = () => {
     const value = this._form.getValue()
-    let data = {
-      method: 'POST',
-      body: JSON.stringify({
-        email: value.email,
-        password: value.password,
-        username: value.username
-      }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    }
     this.setState({isLoading: true})
-    return fetch("http://" + BACKEND_IP + ":3000/users", data)
-      .then((response) => response.json())
-      .then(async (responseJson) => {
-         await AsyncStorage.setItem('userToken', responseJson.token);
-         await AsyncStorage.setItem('userId', responseJson.userId)
-        this.setState({
-          isLoading: false,
-        });
-        this.props.navigation.navigate('SetUpProfile')
-      })
-      .catch((error) => {
-        console.error(error);
+    api.UsersClient.create(value)
+    .then(async ({result})=>{
+      await AsyncStorage.setItem('userId', result.data.userId)
+      this.setState({
+        isLoading: false,
       });
+      this.props.navigation.navigate('SetUpProfile')
+    }).catch(err=>console.log(err))
   }
 
   loginUser =  async() => {
