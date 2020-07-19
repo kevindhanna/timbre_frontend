@@ -74,7 +74,7 @@ class InstrumentRating extends React.Component {
 
   render () {
     return (
-      <View>
+      <View style={styles.container}>
         <Text style={styles.heading}>How do you rate your playing?</Text>
       <View style={styles.instrument_rating_container}>
         <FlatList
@@ -91,6 +91,10 @@ class InstrumentRating extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container:{
+    marginHorizontal:20,
+    marginTop: 100
+  },
   instrument_title: {
     flex: 1,
     paddingTop: 10,

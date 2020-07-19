@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import t from 'tcomb-form-native'
 
-const BACKEND_IP = require('../.env').BACKEND_IP
+const BACKEND_IP = require('../.env.js').BACKEND_IP
 const Form = t.form.Form
 
 const User = t.struct({
