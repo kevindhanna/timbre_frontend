@@ -123,7 +123,15 @@ class FormSummary extends Component {
               title='Finish'
               titleStyle={{fontFamily: 'Nunito Bold'}}
               buttonStyle={{padding: 10, borderRadius: 10, borderWidth: 1.2}}
-              containerStyle={{width: 200, marginBottom: 20, marginTop: 20, alignSelf:'center'}}
+              containerStyle={{width: 200, marginBottom: 15, marginTop: 20, alignSelf:'center'}}
+            />
+            <Button
+              raised
+              type='outline'
+              title='Edit'
+              titleStyle={{fontFamily: 'Nunito Bold'}}
+              buttonStyle={{padding: 10, borderRadius: 10, borderWidth: 1.2}}
+              containerStyle={{width: 200, marginBottom: 20, alignSelf:'center'}}
             />
           </View>
         </View>
@@ -234,7 +242,7 @@ const styles = StyleSheet.create({
     fontSize:16
   },
   footer: {
-    marginVertical: 40
+    marginTop: 40
   }
 })
 
