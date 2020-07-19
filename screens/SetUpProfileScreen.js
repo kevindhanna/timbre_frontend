@@ -3,8 +3,7 @@ import React, { Component, createRef } from 'react';
 import {
   StyleSheet,
   View,
-  ScrollView,
-  SafeAreaView
+  ScrollView
 } from 'react-native';
 import InstrumentMultiSelect from '../components/InstrumentMultiSelect';
 import InstrumentRating from '../components/InstrumentRating';
@@ -45,8 +44,7 @@ class SetUpProfileScreen extends Component {
   }
   render() {
     return (
-      <ScrollView style={styles.container}
-      >
+      <ScrollView style={styles.container}>
         <View style={styles.formContainer}>
           {this.formType()}
         </View>
@@ -57,8 +55,8 @@ class SetUpProfileScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#fff',
-    paddingBottom: 10,
   },
   formContainer: {
     backgroundColor: '#ffffff',
