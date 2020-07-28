@@ -20,7 +20,7 @@ const bandInfoForm = t.struct({
   bio: t.String,
 })
 
-const bandInstrumentFrom = t.struct({
+const bandInstrumentForm = t.struct({
   guitar: t.Number,
   bass: t.Number,
   vocals: t.Number,
@@ -32,6 +32,10 @@ export default class SetupBandScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
+        infoForm: {
+          bandName: "",
+          bio: "",
+        },
         instrumentFormValues: {
           guitar: 0,
           bass: 0,
@@ -69,14 +73,16 @@ export default class SetupBandScreen extends Component {
   }
 
   handleMinus = (field) => {
-    let newState = this.state.instrumentFormValues
-    newState[field] -= 1
+    let newState = this.state
+    if (newState.instrumentFormValues[field] > 0) {
+      newState.instrumentFormValues[field] -= 1
+    }
     this.setState(newState)
   }
 
   handlePlus = (field) => {
-    let newState = this.state.instrumentFormValues
-    newState[field] += 1
+    let newState = this.state
+    newState.instrumentFormValues[field] += 1
     this.setState(newState)
   }
 
@@ -88,12 +94,12 @@ export default class SetupBandScreen extends Component {
       minusButtons.push(
         <Button
           key={step*10}
+          onPress={()=>{this.handleMinus(instruments[step])}}
           icon={
             <Icon
               name="minus"
               size={15}
               color="black"
-              onPress={()=>{this.handleMinus(instruments[step])}}
               />
           }
           buttonStyle={{borderRadius: 10, backgroundColor: '#EFC84A'}}
@@ -102,12 +108,12 @@ export default class SetupBandScreen extends Component {
       plusButtons.push(
         <Button
           key={step*100}
+          onPress={()=>{this.handlePlus(instruments[step])}}
           icon={
             <Icon
               name="plus"
               size={15}
               color="black"
-              onPress={()=>{this.handlePlus(instruments[step])}}
               />
           }
           buttonStyle={{borderRadius: 10, backgroundColor: '#EFC84A'}}
@@ -131,6 +137,12 @@ export default class SetupBandScreen extends Component {
               <Form
                 ref={c => this._infoForm = c}
                 type={bandInfoForm}
+                value={this.state.infoForm}
+                onChange={(value)=>{
+                  state = this.state
+                  state.infoForm = value
+                  this.setState(state)
+                }}
                 options={{auto: 'placeholders'}}/>
             </View>
             <View style={styles.formContainer}>
@@ -148,7 +160,7 @@ export default class SetupBandScreen extends Component {
                 </View>
                 <Form
                   ref={c => this._instrumentForm = c}
-                  type={bandInstrumentFrom}
+                  type={bandInstrumentForm}
                   options={{auto: "none"}}
                   value={this.state.instrumentFormValues}/>
                   <View>
